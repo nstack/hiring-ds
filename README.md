@@ -16,6 +16,8 @@ You can use any 1st- or 3rd-party library functions, packages, frameworks and so
 
 There is no right answer as such, we will mainly be looking at code quality, data preprocessing skills, completeness of the solution from a software engineering perspective, and clarity of thought.
 
+To get started, we recommend forking and cloning this repo, and then either point us to your fork or submit a PR - thanks!
+
 ### Files
 
 - `orders.zip` - an archive containing two sample transaction datasets to use as input to generate customer predictions
