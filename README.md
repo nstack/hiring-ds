@@ -14,7 +14,7 @@ Build a standalone command-line application in the language of your choice that 
 
 The `orders.zip` archive contains two sample transaction datasets that can each be used as input to generate customer predictions. The files come from two different domains and are independent, with their own schema and consist of "messy" real world data - your solution is expected to be able to work with each sample dataset individually to output predictions.
 
-You can use any 1st- or 3rd-party library functions, packages, frameworks and solvers you like, or build a model from scratch if you prefer.
+You can use any 1st- or 3rd-party library functions, packages, frameworks, models, and solvers you like, or can build a solution/model from scratch if you prefer.
 
 There is no right answer as such, we will mainly be looking at code quality, data preprocessing skills, completeness of the solution from a software engineering perspective, and clarity of thought.
 
