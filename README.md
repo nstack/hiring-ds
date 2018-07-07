@@ -7,17 +7,15 @@ Your task is to develop a model that can take either client's data, and returns 
 
 ### Instructions
 
-Build a standalone command-line application in the language of your choice that takes the path of a input CSV datafile as a command-line argument and
+Build a standalone command-line application in the language of your choice that takes the path of a single input CSV datafile as a command-line argument and
   - loads and validates the input dataset of customer transaction data
   - trains a model that predicts a customer's health as a float from `0.0 - 1.0` given their transaction history
   - prints a CSV file containing the customer ID and health score per row to `stdout`
+
+The `orders.zip` archive contains two sample transaction datasets that can each be used as input to generate customer predictions. The files come from two different domains and are independent, with their own schema and consist of "messy" real world data - your solution is expected to be able to work with each sample dataset individually to output predictions.
 
 You can use any 1st- or 3rd-party library functions, packages, frameworks and solvers you like, or build a model from scratch if you prefer.
 
 There is no right answer as such, we will mainly be looking at code quality, data preprocessing skills, completeness of the solution from a software engineering perspective, and clarity of thought.
 
 To get started, we recommend forking and cloning this repo, and then either point us to your fork or submit a PR - thanks!
-
-### Files
-
-- `orders.zip` - an archive containing two sample transaction datasets to use as input to generate customer predictions
