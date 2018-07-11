@@ -19,3 +19,7 @@ Future Improvements:
 	- there would be ready-to-use models to make score predictions
 	- a downloaded model can be read and used as a model to make score predictions
 
+How to Run:
+python get_scores.py -f <file_path> -d <date_col> -id <id_col> -p <price_col>
+
+
