@@ -1,21 +1,26 @@
-## Hiring Challenge for Data Scientists
+<img src="https://github.com/sinemypolat/hiring-ds/blob/master/Score%20UP.png">
 
-### Introduction
+**ScoreUp** is a simple scoring model where you may use to score customer 'health' based on their previous purchases. It takes a dataset file path as input and the dataset must include 3 arguments in order:
 
-Two of our "clients" have a similar problem: they each have data on which of their customers made purchases at which times, and they each want to assign a value to each of their customers (there could be different commercial reasons for this -- for instance you may want to use the information to target an email campaign at customers that are at risk of never purchasing again, or simply to quantify customer health over time).
-Your task is to build a solution that can take either client's data, and returns a "health" score for each customer.
+1. date_col: Name of the column for purchase dates in any format.
+2. id_col: Name of the column for customer id.
+3. price_col: Name of the column for the purchase amount.
 
-### Instructions
+ScoreUp prepare/preprocess dataset, splits it into training and test sets and then uses ordinary linear regression from scikit-learn library.
 
-Build a standalone command-line application in the language of your choice that takes the path of a single input CSV datafile as a command-line argument and
-  - loads and validates the input dataset of customer transaction data
-  - trains a model that predicts a customer's health as a float from `0.0 - 1.0` given their transaction history
-  - prints a CSV file containing the customer ID and health score per row to `stdout`
+**Future Improvements:**
 
-The `orders.zip` archive contains two sample transaction datasets that can each be used as input to generate customer predictions. The files come from two different domains and are independent, with their own schema and consist of "messy" real world data - your solution is expected to be able to work with each sample dataset individually to output predictions.
+- More data can be provided in addition to purchase data and model can be improved in the light of the new data.
 
-You can use any 1st- or 3rd-party existing library functions, packages, frameworks, models, and solvers you like, or can build a solution/model from scratch if you prefer.
+- Data processing functions are written based on 2 example input datasets. More general rules can be followed to provide the flexibility of working with any dataset.
 
-There is no right answer as such, we will mainly be looking at code quality, data preprocessing skills, completeness of the solution from a software engineering perspective, and clarity of thought.
+- More independent modules can be added so that:
+	- a model can be trained with a training set then downloaded to local disk
+	- there would be ready-to-use models to make score predictions
+	- a downloaded model can be read and used as a model to make score predictions
 
-To get started, we recommend forking and cloning this repo, and then either point us to your fork or submit a PR - thanks! (Note, you'll need `git-lfs` installed to pull down the datasets, or just download direct from the [GitHub source browser](https://github.com/nstack/hiring-ds/blob/master/orders.zip))
+**How to Run:**
+
+python get_scores.py -f <file_path> -d <date_col> -id <id_col> -p <price_col>
+
+
