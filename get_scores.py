@@ -63,9 +63,6 @@ if __name__=="__main__":
 
 	args = parser.parse_args()
 
-	if len(args) != 4:
-		print("This application expects 4 arguments")
-
 	main(args)
 
 
