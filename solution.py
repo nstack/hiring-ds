@@ -174,7 +174,7 @@ def print_csv(df):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Train health model.')
-    parser.add_argument('file_name', type=str, help='an integer for the accumulator')
+    parser.add_argument('file_name', type=str, help='orders-1.csv or orders-2.csv.')
 
     args = parser.parse_args()
     file_name = args.file_name
