@@ -12,38 +12,38 @@ import sklearn.ensemble
 
 
 def read_df(file_name):
-    print("Reading %s..." % file_name)
+    print("Reading %s..." % file_name, flush=True)
     df = pd.read_csv(file_name, dtype={'id': str, 'Customer ID': str,
                                        'Product SKU': str, 'Price': str,
                                        'price': float, 'profit': float})
     original_len = len(df)
-    print('Read in %d rows...' % original_len)
+    print('Read in %d rows...' % original_len, flush=True)
     df.dropna(inplace=True)
-    print("Dropped %d rows containing nan..." % (original_len - len(df)))
+    print("Dropped %d rows containing nan..." % (original_len - len(df)), flush=True)
 
     if 'Customer ID' in df.columns:
         df.rename(columns={'Customer ID': 'id'}, inplace=True)
-        print("Renamed Customer ID to id...")
+        print("Renamed Customer ID to id...", flush=True)
 
     if 'Order Date' in df.columns:
         df['Order Date'] = pd.to_datetime(df['Order Date'].str[:10], format="%d/%m/%Y")
     else:
         df['date'] = pd.to_datetime(df['date'], format="%Y-%m-%d %H:%M:%S")
-    print("Parsed dates...")
+    print("Parsed dates...", flush=True)
 
     if 'Order Date' in df.columns:
         df.rename(columns={'Order Date': 'date'}, inplace=True)
-        print("Renamed Order Date to date...")
+        print("Renamed Order Date to date...", flush=True)
 
     if 'Price' in df.columns:
         df['Price'] = df['Price'].str.replace(',', '').astype(float)
         df.rename(columns={'Price': 'price'}, inplace=True)
-        print("Renamed Price to price...")
+        print("Renamed Price to price...", flush=True)
 
     original_len = len(df)
     df = df[df['id'] != '-1']
-    print("Dropped %d rows containing -1 in id column..." % (original_len - len(df)))
-    print()
+    print("Dropped %d rows containing -1 in id column..." % (original_len - len(df)), flush=True)
+    print(flush=True)
 
     return df
 
@@ -54,37 +54,38 @@ def create_healthy_binary_target(df):
     average_days_between_orders = average_days_between_orders[
         average_days_between_orders != datetime.timedelta(0)]
 
-    print("Percentiles for average days between orders for returning customers:")
-    print(average_days_between_orders.describe(percentiles=np.arange(0, 1, 0.1)))
-    print()
+    print("Percentiles for average days between orders for returning customers:", flush=True)
+    print(average_days_between_orders.describe(percentiles=np.arange(0, 1, 0.1)), flush=True)
+    print(flush=True)
 
     quantile = average_days_between_orders.quantile(q=0.9)
     print("90%% of the customers that make repeated purchase make it after %d days." %
-          quantile.days)
+          quantile.days, flush=True)
     latest_date = df['date'].max()
 
     cut_off = latest_date - quantile
-    print("Latest date found in the dataset: %s." % latest_date)
-    print("Customers who have purchases after %s are considered healthy." % cut_off)
+    print("Latest date found in the dataset: %s." % latest_date, flush=True)
+    print("Customers who have purchases after %s are considered healthy." % cut_off, flush=True)
 
     df['healthy'] = df.groupby('id')['date'].transform(max) > cut_off
-    print("Created %d transactions corresponding to healthy customers." % np.sum(df['healthy']))
+    print("Created %d transactions corresponding to healthy customers." % np.sum(df['healthy']),
+          flush=True)
 
     unique_customers = df.groupby('id')['healthy'].tail(1)
     num_unique = len(unique_customers)
     num_healthy = np.sum(unique_customers)
-    print("Number of unique customers: %d." % num_unique)
-    print("Number of healthy customers: %d." % num_healthy)
-    print("Proportion of healthy customers: %0.2f." % (num_healthy / num_unique))
+    print("Number of unique customers: %d." % num_unique, flush=True)
+    print("Number of healthy customers: %d." % num_healthy, flush=True)
+    print("Proportion of healthy customers: %0.2f." % (num_healthy / num_unique), flush=True)
 
     return df
 
 
 def add_features(df):
-    print("Adding secondsSinceRegistration feature...")
+    print("Adding secondsSinceRegistration feature...", flush=True)
     df['secondsSinceRegistration'] = df.groupby('id')['date'].transform(
         lambda x: (x - x.min())).apply(lambda x: x.total_seconds())
-    print("Adding numOfTransactions features...")
+    print("Adding numOfTransactions features...", flush=True)
     df['numOfTransactions'] = df.groupby('id')['date'].transform(lambda x: np.argsort(x) + 1)
 
     return df
@@ -95,14 +96,14 @@ def train_test_splitting(df):
     train_mask = df['id'].isin(train_ids)
     df_train = df[train_mask]
     df_test = df[~train_mask]
-    print("Size of training data set: %d." % len(df_train))
-    print("Size of test data set: %d." % len(df_test))
+    print("Size of training data set: %d." % len(df_train), flush=True)
+    print("Size of test data set: %d." % len(df_test), flush=True)
     train_mean = df_train['healthy'].mean()
     print("Proportion of transactions corresponding to healthy customers in training dataset: "
-          "%0.2f." % train_mean)
+          "%0.2f." % train_mean, flush=True)
     test_mean = df_test['healthy'].mean()
     print("Proportion of transactions corresponding to healthy customers in test dataset: %0.2f." %
-          test_mean)
+          test_mean, flush=True)
 
     return df_train, df_test
 
@@ -126,7 +127,7 @@ def create_find_roc_metric(df_test):
 
 
 def find_best_model(metric_func, df_train):
-    print("Finding the best random forest model...")
+    print("Finding the best random forest model...", flush=True)
     curr_area = -100
     curr_model = None
 
@@ -141,22 +142,23 @@ def find_best_model(metric_func, df_train):
             curr_model = rf
 
         search_dict[min_impurity_decrease] = area
-        print("Min impurity: %0.3f. Area under ROC curve: %0.3f." % (min_impurity_decrease, area))
+        print("Min impurity: %0.3f. Area under ROC curve: %0.3f." % (min_impurity_decrease, area),
+              flush=True)
 
     return curr_model
 
 
 def print_feature_importances(model, df):
-    print("Most important features:")
+    print("Most important features:", flush=True)
     print(sorted(list(zip(features(df), model.feature_importances_)), key=lambda x: x[1],
-                 reverse=True))
+                 reverse=True), flush=True)
 
 
 def customers_health(model, df):
     if 'health_score' in df:
         del df['health_score']
 
-    print("Adding health score column...")
+    print("Adding health score column...", flush=True)
     orders_latest = df.sort_values('date').groupby('id').tail(1)
     proba = model.predict_proba(orders_latest[features(df)])[:, 1]
     health_score = pd.DataFrame({'id': orders_latest['id'], 'health_score': proba})
@@ -164,9 +166,9 @@ def customers_health(model, df):
 
 
 def print_csv(df):
-    print("Printig csv...")
+    print("Printig csv...", flush=True)
     print()
-    print("id,health_score")
+    print("id,health_score", flush=True)
     print(df.groupby('id')['health_score'].max().to_csv())
 
 
@@ -178,7 +180,7 @@ if __name__ == "__main__":
     file_name = args.file_name
 
     with zipfile.ZipFile("orders.zip", 'r') as zip_ref:
-        print("Extracting orders.zip...")
+        print("Extracting orders.zip...", flush=True)
         zip_ref.extractall('.')
 
     df = read_df(file_name)
