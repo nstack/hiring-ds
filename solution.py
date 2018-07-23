@@ -8,6 +8,7 @@ import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
 import sklearn.metrics
+import sklearn.ensemble
 
 
 def read_df(file_name):
@@ -53,7 +54,7 @@ def create_healthy_binary_target(df):
     average_days_between_orders = average_days_between_orders[
         average_days_between_orders != datetime.timedelta(0)]
 
-    print("Percentiles for average days between orders for repeated customers:")
+    print("Percentiles for average days between orders for returning customers:")
     print(average_days_between_orders.describe(percentiles=np.arange(0, 1, 0.1)))
     print()
 
