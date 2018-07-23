@@ -1,0 +1,67 @@
+Extracting orders.zip...
+Reading orders-1.csv...
+Read in 533623 rows...
+Dropped 65 rows containing nan...
+Renamed Customer ID to id...
+Parsed dates...
+Renamed Order Date to date...
+Renamed Price to price...
+Dropped 1411 rows containing -1 in id column...
+
+Percentiles for average days between orders for returning customers:
+count                      51501
+mean     32 days 05:31:38.178793
+std      24 days 13:12:07.576172
+min       0 days 01:42:51.428571
+0%        0 days 01:42:51.428571
+10%              8 days 06:00:00
+20%             13 days 00:00:00
+30.0%           17 days 04:00:00
+40%             21 days 12:00:00
+50%      26 days 03:25:42.857142
+60.0%           31 days 10:40:00
+70%             38 days 08:00:00
+80%             47 days 16:00:00
+90%             64 days 00:00:00
+max            179 days 00:00:00
+Name: date, dtype: object
+
+90% of the customers that make repeated purchase make it after 64 days.
+Latest date found in the dataset: 2018-06-27 00:00:00.
+Customers who have purchases after 2018-04-24 00:00:00 are considered healthy.
+Created 271183 transactions corresponding to healthy customers.
+Number of unique customers: 123468.
+Number of healthy customers: 39610.
+Proportion of healthy customers: 0.32.
+Adding secondsSinceRegistration feature...
+Adding numOfTransactions features...
+Size of training data set: 398630.
+Size of test data set: 133517.
+Proportion of transactions corresponding to healthy customers in training dataset: 0.51.
+Proportion of transactions corresponding to healthy customers in test dataset: 0.51.
+Finding the best random forest model...
+Min impurity: 0.000. Area under ROC curve: 0.764.
+Min impurity: 0.020. Area under ROC curve: 0.686.
+Min impurity: 0.040. Area under ROC curve: 0.684.
+Min impurity: 0.060. Area under ROC curve: 0.500.
+Min impurity: 0.080. Area under ROC curve: 0.500.
+Min impurity: 0.100. Area under ROC curve: 0.500.
+Min impurity: 0.120. Area under ROC curve: 0.500.
+Min impurity: 0.140. Area under ROC curve: 0.500.
+Min impurity: 0.160. Area under ROC curve: 0.500.
+Min impurity: 0.180. Area under ROC curve: 0.500.
+Min impurity: 0.200. Area under ROC curve: 0.500.
+Min impurity: 0.220. Area under ROC curve: 0.500.
+Min impurity: 0.240. Area under ROC curve: 0.500.
+Min impurity: 0.260. Area under ROC curve: 0.500.
+Min impurity: 0.280. Area under ROC curve: 0.500.
+Most important features:
+[('secondsSinceRegistration', 0.45706872620175287), ('price', 0.41632602073665953), ('numOfTransactions', 0.1266052530615876)]
+Adding health score column...
+Saving full csv...
+Printig csv...
+
+id,health_score
+1000001170897,0.2505100887996181
+1000015470766,1.0
+...
